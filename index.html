@@ -605,6 +605,16 @@ body.mando-on .toast{top:16px}
   .tfst{padding:10px 14px}
 }
 
+/* tabla y gráfico de la ficha */
+.fvis h4{font-size:clamp(1.2rem,2vw,1.6rem)!important}
+.ftab{width:100%;border-collapse:collapse;font-size:clamp(1rem,1.7vw,1.25rem);background:#fff}
+.ftab th,.ftab td{border:2px solid #7c2d12;padding:6px 10px;text-align:center}
+.ftab th{background:#fed7aa;font-weight:900}
+.fgraf{display:flex;align-items:flex-end;gap:12px;height:190px;padding:6px 6px 0;border-left:3px solid #2e1065;border-bottom:3px solid #2e1065;margin:6px 4px 30px}
+.fb{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}
+.fbar{width:70%;background:linear-gradient(#fb923c,#c2410c);border-radius:6px 6px 0 0}
+.fb span{position:absolute;bottom:-26px;font-size:.85rem;font-weight:800;white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -1286,7 +1296,7 @@ function buildLengua(topic,type,lv){
 TOPICS.lengua.push('pron','info');
 Object.assign(CAT,{pron:'lengua',info:'lengua'});
 Object.assign(LABEL,{pron:'Pronombres personales',info:'Texto informativo'});
-Object.assign(TYPES_BY_TOPIC,{pron:['mc','tf','caza','sopa'],info:['mc','tf','caza']});
+Object.assign(TYPES_BY_TOPIC,{pron:['mc','tf','caza','sopa'],info:['mc','tf','caza','sopa']});
 
 // ---------- Pronombres personales ----------
 const PRON=[['yo',1,'s'],['tú',2,'s'],['él',3,'s'],['ella',3,'s'],['nosotros',1,'p'],['nosotras',1,'p'],['vosotros',2,'p'],['vosotras',2,'p'],['ellos',3,'p'],['ellas',3,'p']];
@@ -1356,100 +1366,111 @@ SOPAS.push(
 {t:'pron',d:2,goal:'Encuentra los 3 pronombres de <b>PRIMERA persona</b>.',targets:[['YO','yo'],['NOSOTROS','nosotros'],['NOSOTRAS','nosotras']],traps:[['VOSOTROS','vosotros'],['ELLAS','ellas']],e:'La 1ª persona es quien habla: yo, nosotros, nosotras.'},
 );
 
-// ---------- Texto informativo (lecturas para 4º) ----------
-const LECTURAS=[
-{id:'murc',titulo:'Los murciélagos',p:[
- 'Los murciélagos son mamíferos, como los perros o las personas, pero tienen una habilidad especial: son los únicos mamíferos que pueden volar de verdad. Sus alas son una piel muy fina que une los dedos de sus manos.',
- 'Son animales nocturnos. De día duermen colgados boca abajo en cuevas o en árboles huecos, y salen a buscar comida cuando oscurece. La mayoría come insectos, por eso ayudan a controlar las plagas de mosquitos.',
- 'Para orientarse en la oscuridad, muchos murciélagos lanzan chillidos y escuchan el eco que rebota en las cosas.'],
- qs:[
- {q:'¿Cuál es el <b>título</b> del texto?',o:['Los murciélagos','Los mamíferos','Los mosquitos','Las cuevas'],e:'El título aparece al principio y dice de qué trata el texto.'},
- {q:'Según el texto, ¿qué son los murciélagos?',o:['Mamíferos','Aves','Insectos','Reptiles'],e:'El texto dice: «Los murciélagos son <b>mamíferos</b>, como los perros o las personas».'},
- {q:'¿Cuándo duermen los murciélagos?',o:['De día','De noche','Solo en invierno','Nunca duermen'],e:'«De día duermen colgados boca abajo». Son animales <b>nocturnos</b>.'},
- {q:'¿Qué come la mayoría de los murciélagos?',o:['Insectos','Fruta','Hierba','Peces'],e:'«La mayoría come <b>insectos</b>».'},
- {d:2,q:'¿Por qué el texto dice que los murciélagos son <b>útiles</b>?',o:['Porque comen muchos mosquitos','Porque asustan a los ladrones','Porque duermen en cuevas','Porque vuelan muy alto'],e:'Al comer insectos «ayudan a controlar las plagas de mosquitos».'},
- {d:2,q:'¿Cómo se orientan muchos murciélagos en la oscuridad?',o:['Escuchando el eco de sus chillidos','Con una vista muy buena','Siguiendo la luz de la luna','Por el olor de las flores'],e:'«Lanzan chillidos y escuchan el <b>eco</b> que rebota en las cosas».'}],
- tf:[{s:'Según el texto, los murciélagos son aves.',v:false,e:'Son <b>mamíferos</b>. Vuelan, pero no son aves.'},{s:'Los murciélagos duermen colgados boca abajo.',v:true,e:'«De día duermen colgados boca abajo en cuevas o en árboles huecos».'}]},
-{id:'aran',titulo:'Las arañas',p:[
- 'Mucha gente piensa que las arañas son insectos, pero no lo son. Los insectos tienen seis patas y las arañas tienen ocho. Además, su cuerpo está dividido en dos partes.',
- 'Todas las arañas fabrican seda. Muchas la usan para tejer telarañas y atrapar insectos, que son su alimento. La seda de araña es muy fina, pero también muy resistente.',
- 'Aunque a algunas personas les dan miedo, casi todas las arañas son inofensivas para nosotros y muy útiles para la naturaleza.'],
- qs:[
- {q:'¿Cuántas patas tienen las arañas?',o:['Ocho','Seis','Cuatro','Diez'],e:'«Los insectos tienen seis patas y las arañas tienen <b>ocho</b>».'},
- {q:'¿Son insectos las arañas?',o:['No, porque tienen ocho patas','Sí, porque son pequeñas','Sí, porque comen insectos','No, porque vuelan'],e:'Los insectos tienen seis patas; las arañas, ocho. Por eso <b>no</b> son insectos.'},
- {q:'¿Para qué usan muchas arañas la seda?',o:['Para tejer telarañas y atrapar insectos','Para abrigarse en invierno','Para asustar a las personas','Para construir nidos de pájaros'],e:'«Muchas la usan para tejer telarañas y atrapar insectos».'},
- {d:2,q:'¿Cuál es la <b>idea principal</b> del último párrafo?',o:['Casi todas las arañas son inofensivas y útiles','Las arañas dan mucho miedo','Las arañas tienen ocho patas','La seda es muy fina'],e:'El último párrafo dice que, aunque den miedo, casi todas son <b>inofensivas y útiles</b>.'},
- {d:2,q:'¿Cómo es la seda de araña, según el texto?',o:['Fina y muy resistente','Gruesa y blanda','Pegajosa y de colores','Débil y corta'],e:'«Es muy fina, pero también muy resistente».'}],
- tf:[{s:'Según el texto, las arañas son insectos.',v:false,e:'El texto lo dice claro: «no lo son».'},{s:'Todas las arañas fabrican seda.',v:true,e:'«Todas las arañas fabrican seda».'}]},
-{id:'calab',titulo:'La calabaza',p:[
- 'La calabaza es el fruto de una planta que crece pegada al suelo. Se recoge en otoño y puede ser de muchos tamaños y colores: naranja, verde, amarilla o blanca.',
- 'Es un alimento muy sano. Con ella se preparan cremas, purés, bizcochos y otros postres.',
- 'En Halloween se vacía y se le talla una cara para meter una vela dentro. Esta costumbre viene de Irlanda, donde antiguamente se tallaban nabos en lugar de calabazas.'],
- qs:[
- {q:'¿En qué estación se recoge la calabaza?',o:['En otoño','En verano','En primavera','En invierno'],e:'«Se recoge en <b>otoño</b>».'},
- {q:'¿De dónde viene la costumbre de tallar caras?',o:['De Irlanda','De España','De Egipto','De China'],e:'«Esta costumbre viene de <b>Irlanda</b>».'},
- {q:'¿Qué se tallaba antiguamente en lugar de calabazas?',o:['Nabos','Patatas','Manzanas','Melones'],e:'«Antiguamente se tallaban <b>nabos</b>».'},
- {d:2,q:'¿De qué trata el <b>segundo párrafo</b>?',o:['De la calabaza como alimento','De la costumbre de Halloween','De los colores de la calabaza','De la planta de la calabaza'],e:'El segundo párrafo habla de que es un alimento sano y de las recetas que se hacen con ella.'},
- {d:2,q:'¿Cuántos <b>párrafos</b> tiene el texto?',o:['Tres','Dos','Cuatro','Uno'],e:'Cada párrafo empieza en una línea nueva: el texto tiene <b>tres</b>.'}],
- tf:[{s:'Según el texto, todas las calabazas son naranjas.',v:false,e:'Pueden ser naranjas, verdes, amarillas o blancas.'},{s:'Con la calabaza se pueden hacer postres.',v:true,e:'«Se preparan cremas, purés, bizcochos y otros postres».'}]},
-{id:'santos',titulo:'El Día de Todos los Santos',p:[
- 'El 1 de noviembre se celebra en España el Día de Todos los Santos. Ese día muchas familias visitan los cementerios y llevan flores a los seres queridos que ya no están.',
- 'En estas fechas son típicos algunos dulces, como los huesos de santo y los buñuelos de viento. En muchos lugares también se asan castañas, que se venden calentitas en la calle.',
- 'En Cataluña esta fiesta se llama la Castañada, y se comen castañas, boniatos y panellets.'],
- qs:[
- {q:'¿Qué día se celebra Todos los Santos?',o:['El 1 de noviembre','El 31 de octubre','El 25 de diciembre','El 1 de octubre'],e:'«El <b>1 de noviembre</b> se celebra en España el Día de Todos los Santos».'},
- {q:'¿Qué dulces son típicos en estas fechas?',o:['Huesos de santo y buñuelos de viento','Turrón y polvorones','Roscón y chocolate','Torrijas y pestiños'],e:'El texto nombra los <b>huesos de santo</b> y los <b>buñuelos de viento</b>.'},
- {q:'¿Cómo se llama esta fiesta en Cataluña?',o:['La Castañada','El Magosto','Halloween','La Calabazada'],e:'«En Cataluña esta fiesta se llama la <b>Castañada</b>».'},
- {d:2,q:'¿Qué se vende calentito en la calle?',o:['Castañas asadas','Buñuelos','Panellets','Boniatos fríos'],e:'«Se asan castañas, que se venden calentitas en la calle».'}],
- tf:[{s:'Según el texto, Todos los Santos se celebra el 31 de octubre.',v:false,e:'Es el <b>1 de noviembre</b>. El 31 de octubre es Halloween.'}]},
-{id:'buho',d:2,titulo:'El búho',p:[
- 'Los búhos son aves rapaces nocturnas: cazan de noche gracias a su vista y a su oído, que son excelentes.',
- 'No pueden mover los ojos como nosotros, así que, para mirar a los lados, giran la cabeza. ¡Pueden girarla casi tres cuartos de vuelta!',
- 'Vuelan casi sin hacer ruido porque sus plumas son muy suaves. Así sorprenden a sus presas: ratones, insectos y otros animales pequeños.',
- 'Se diferencian de las lechuzas porque tienen en la cabeza dos mechones de plumas que parecen orejas.'],
- qs:[
- {q:'¿Por qué los búhos giran tanto la cabeza?',o:['Porque no pueden mover los ojos','Porque oyen mal','Porque tienen frío','Porque buscan a las lechuzas'],e:'«No pueden mover los ojos como nosotros, así que giran la cabeza».'},
- {q:'¿Por qué vuelan casi sin hacer ruido?',o:['Porque sus plumas son muy suaves','Porque vuelan muy alto','Porque son muy pequeños','Porque solo vuelan de día'],e:'«Sus plumas son muy <b>suaves</b>».'},
- {q:'¿En qué se diferencian los búhos de las lechuzas?',o:['Tienen dos mechones de plumas que parecen orejas','Los búhos cazan de día','Las lechuzas no tienen plumas','Los búhos son más pequeños'],e:'Los búhos tienen dos <b>mechones de plumas</b> que parecen orejas.'},
- {q:'¿Qué significa que son aves <b>nocturnas</b>?',o:['Que hacen su vida de noche','Que viven en el norte','Que no pueden volar','Que comen frutas'],e:'Nocturno = de la noche. Los búhos cazan de noche.'}],
- tf:[{s:'Según el texto, los búhos cazan de día.',v:false,e:'Son aves <b>nocturnas</b>: cazan de noche.'}]},
+// ---------- Texto informativo: TODO sale de la ficha «Los textos informativos» ----------
+const TIPOS_INFO=[
+ {k:'noticia',n:'Noticia',def:'Informa sobre hechos recientes y de actualidad.',par:'reportaje',
+  ej:['Una noticia en un periódico sobre la apertura de un nuevo colegio.','«Inauguran un nuevo parque en la ciudad», publicado en EL DIARIO.']},
+ {k:'reportaje',n:'Reportaje',def:'Profundiza en un tema y ofrece más detalles que una noticia.',par:'noticia',
+  ej:['Un reportaje en una revista sobre los animales marinos.','«La vida en los océanos»: muchas páginas de revista con fotos y detalles sobre el tema.']},
+ {k:'enciclopedia',n:'Artículo de enciclopedia',def:'Explica de forma clara y ordenada un tema.',par:'reportaje',
+  ej:['Un artículo en una enciclopedia sobre los volcanes.','«El volcán»: una página de enciclopedia con un dibujo y la explicación del tema.']},
+ {k:'manual',n:'Manual de instrucciones',def:'Indica los pasos que hay que seguir para hacer o usar algo.',par:'enciclopedia',
+  ej:['Un manual para montar un mueble.','«Cómo montar una bicicleta», con los pasos 1, 2 y 3.']},
+ {k:'cartel',n:'Cartel',def:'Informa de forma breve y visual.',par:'folleto',
+  ej:['Un cartel en el colegio para cuidar el medio ambiente.','«CUIDA EL PLANETA: reduce, reutiliza, recicla», colgado en la pared del cole.']},
+ {k:'folleto',n:'Folleto',def:'Ofrece información breve sobre un producto, servicio o lugar.',par:'cartel',
+  ej:['Un folleto turístico sobre una ciudad.','«Visita nuestro museo»: un papel doblado con información sobre el museo (arte, historia, cultura).']},
+ {k:'tabla',n:'Tabla',def:'Organiza la información en filas y columnas.',par:'grafico',
+  ej:['Una tabla con animales en peligro de extinción.','Un cuadro con dos columnas, «Animal» y «Lugar», y una fila para cada animal.']},
+ {k:'grafico',n:'Gráfico',def:'Representa datos de forma visual.',par:'tabla',
+  ej:['Un gráfico con los deportes preferidos de la clase.','Unas barras que muestran cuántos alumnos prefieren fútbol, baloncesto, natación o tenis.']},
 ];
-function lecturaHTML(L){return `<div class="lect"><h4>${L.titulo}</h4>${L.p.map(x=>`<p>${x}</p>`).join('')}</div>`}
-LECTURAS.forEach(L=>{
-  L.qs.forEach(x=>BANK.push({t:'info',d:Math.max(L.d||1,x.d||1),q:lecturaHTML(L)+x.q,o:x.o,e:x.e,p:`«${L.titulo}»: ${plainOf(x.q)}`,lect:true}));
-  L.tf.forEach(x=>TFB.push({t:'info',d:L.d||x.d,pre:lecturaHTML(L),s:x.s,v:x.v,e:x.e,p:`«${L.titulo}»: ${x.s}`}));
-});
+const INFO_TIP='<br><small>📄 Los textos informativos ofrecen información sobre un tema real, de forma <b>clara, objetiva y ordenada</b>. ¡Informan, no cuentan historias!</small>';
+const TI=k=>TIPOS_INFO.find(t=>t.k===k);
+function infoDistract(t,lv,f){
+  // En fácil no se mezclan las parejas que se parecen (noticia/reportaje, cartel/folleto, tabla/gráfico)
+  let pool=TIPOS_INFO.filter(x=>x.k!==t.k&&(lv===2||x.k!==t.par));
+  const near=lv===2&&Math.random()<.7?[TI(t.par)]:[];pool=shuffle(pool.filter(x=>!near.includes(x)));
+  return near.concat(pool).slice(0,3).map(f);
+}
+// visuales copiados de la ficha
+const FICHA_TABLA=`<!--L--><div class="lect fvis"><h4>Animales en peligro de extinción</h4><table class="ftab"><thead><tr><th>Animal</th><th>Lugar</th></tr></thead><tbody><tr><td>Oso polar</td><td>Ártico</td></tr><tr><td>Tortuga marina</td><td>Océano</td></tr><tr><td>Elefante</td><td>África</td></tr><tr><td>Lince ibérico</td><td>España</td></tr></tbody></table></div><!--/L-->`;
+const FICHA_GRAF=`<!--L--><div class="lect fvis"><h4>Deportes preferidos</h4><div class="fgraf">${[['Fútbol',35],['Baloncesto',25],['Natación',17],['Tenis',13]].map(([d,v])=>`<div class="fb"><div class="fbar" style="height:${v/40*100}%"></div><span>${d}</span></div>`).join('')}</div></div><!--/L-->`;
+
+// Kahoot fijas
 BANK.push(
-{t:'info',q:'¿Para qué sirve un <b>texto informativo</b>?',o:['Para dar información real sobre un tema','Para contar una historia inventada','Para expresar sentimientos con rima','Para convencer de que compres algo'],e:'Un texto informativo explica <b>datos reales</b>: cómo son los animales, qué pasó, cómo funciona algo…'},
-{t:'info',q:'¿Cuál de estos es un <b>texto informativo</b>?',o:['Una página de enciclopedia sobre los murciélagos','Un cuento de brujas','Un poema sobre la luna','Una adivinanza'],e:'Las enciclopedias, las noticias, los folletos y los reportajes son textos informativos.'},
-{t:'info',q:'¿Cuál de estos <b>NO</b> es un texto informativo?',o:['Un cuento de miedo','Una noticia del periódico','Un artículo de enciclopedia','El folleto de un museo'],e:'Un cuento es un texto <b>narrativo</b>: cuenta una historia inventada.'},
-{t:'info',q:'¿Qué parte del texto informativo <b>presenta el tema</b> al principio?',o:['La introducción','El desarrollo','La conclusión','El pie de foto'],e:'Partes: <b>introducción</b> (presenta el tema) → <b>desarrollo</b> (explica los datos) → <b>conclusión</b> (resume o cierra).'},
-{t:'info',q:'¿En qué parte se <b>explican los datos</b> con detalle?',o:['En el desarrollo','En la introducción','En la conclusión','En el título'],e:'El <b>desarrollo</b> es la parte más larga: ahí se explica todo con detalle.'},
-{t:'info',q:'¿Qué parte <b>cierra</b> el texto y resume lo más importante?',o:['La conclusión','La introducción','El desarrollo','El subtítulo'],e:'La <b>conclusión</b> va al final.'},
-{t:'info',q:'¿Qué ayuda a entender un texto informativo además de las palabras?',o:['Fotos, dibujos, gráficos y mapas','Los diálogos de los personajes','Las rimas','El «érase una vez»'],e:'Las imágenes, gráficos y mapas completan la información.'},
-{t:'info',q:'«<i>Había una vez un vampiro que tenía miedo a la oscuridad…</i>» ¿Qué tipo de texto es?',o:['Un cuento (texto narrativo)','Un texto informativo','Una noticia','Una receta'],e:'«Había una vez» es típico de los cuentos: cuentan historias inventadas.'},
-{t:'info',q:'«<i>Los lobos viven en grupos llamados manadas.</i>» ¿Qué tipo de texto es?',o:['Un texto informativo','Un cuento','Un poema','Una adivinanza'],e:'Da un <b>dato real</b> sobre los lobos.'},
-{t:'info',q:'En un texto informativo, el lenguaje debe ser…',o:['claro, ordenado y con datos reales','lleno de rimas','inventado y fantástico','con muchas opiniones del autor'],e:'Se escribe de forma clara para que se entienda bien la información.'},
-{t:'info',d:2,q:'El texto que va <b>debajo de una foto</b> y explica lo que se ve se llama…',o:['Pie de foto','Título','Subtítulo','Índice'],e:'El <b>pie de foto</b> explica la imagen.'},
-{t:'info',d:2,q:'¿Para qué sirven los <b>subtítulos</b> en un texto informativo?',o:['Para ordenar la información en apartados','Para que el texto rime','Para decir quién es el protagonista','Para poner el final de la historia'],e:'Los subtítulos dividen el texto en partes y ayudan a encontrar la información.'},
-{t:'info',d:2,q:'¿Qué frase podría estar en un <b>texto informativo</b>?',o:['La Luna gira alrededor de la Tierra.','¡Qué luna tan bonita hay esta noche!','Érase una vez una luna que hablaba.','Luna lunera, cascabelera.'],e:'Es un <b>dato real</b>. Las otras son una opinión, el principio de un cuento y una canción popular.'},
+{t:'info',q:'¿Qué son los <b>textos informativos</b>?',o:['Textos que ofrecen información sobre un tema real, de forma clara, objetiva y ordenada','Textos que cuentan historias inventadas','Textos que riman, como los poemas','Textos en los que el autor da su opinión'],e:'Es la definición de la ficha.'+INFO_TIP},
+{t:'info',q:'¿Para qué sirven los textos informativos?',o:['Para aprender cosas nuevas y conocer mejor el mundo que nos rodea','Para contar historias de miedo','Para hacer rimas divertidas','Para convencer de que compres algo'],e:'«Sirven para aprender cosas nuevas y conocer mejor el mundo que nos rodea».'},
+{t:'info',q:'Completa: «Los textos informativos <b>informan</b>, no…»',o:['cuentan historias','usan imágenes','tienen títulos','explican temas'],e:'¡Informan, no cuentan historias! Los cuentos son los que cuentan historias.'},
+{t:'info',q:'¿Cómo ofrecen la información los textos informativos?',o:['De forma clara, objetiva y ordenada','De forma desordenada y con rimas','Con muchas opiniones del autor','Con personajes inventados'],e:'Clara, objetiva y ordenada.'},
+{t:'info',q:'¿Cómo es el <b>lenguaje</b> de un texto informativo?',o:['Claro y preciso','Con muchas rimas','Difícil y confuso','Lleno de exageraciones'],e:'Característica: <b>lenguaje claro y preciso</b>.'},
+{t:'info',q:'¿Cómo es la <b>información</b> de un texto informativo?',o:['Real y verificada','Inventada','Secreta','Exagerada'],e:'Característica: <b>información real y verificada</b>.'},
+{t:'info',q:'¿Qué ayuda a <b>organizar</b> la información en un texto informativo?',o:['Títulos, subtítulos, imágenes y tablas','Personajes y diálogos','Rimas y estrofas','Empezar con «Érase una vez»'],e:'Característica: <b>organización de la información</b> (títulos, subtítulos, imágenes, tablas…).'},
+{t:'info',q:'Los textos informativos son <b>objetivos</b>. ¿Qué quiere decir?',o:['Que no expresan opiniones personales','Que son muy cortos','Que siempre tienen dibujos','Que riman'],e:'Son objetivos: <b>no expresan opiniones personales</b>.'},
+{t:'info',q:'¿A quién van dirigidos los textos informativos?',o:['A todas las personas que quieren informarse','Solo a los profesores','Solo a los niños','Solo a los periodistas'],e:'Van dirigidos a <b>todas las personas que quieren informarse</b>.'},
+{t:'info',q:'¿Cuál <b>NO</b> es una característica de los textos informativos?',o:['Expresan opiniones personales','Lenguaje claro y preciso','Información real y verificada','Usan títulos, subtítulos e imágenes'],e:'Los textos informativos son objetivos: <b>no</b> expresan opiniones personales.'},
+{t:'info',q:'¿Cuál de estos <b>NO</b> es un texto informativo?',o:['Un cuento de brujas','Una noticia','Un folleto','Un gráfico'],e:'Un cuento cuenta una historia inventada. Los textos informativos <b>informan, no cuentan historias</b>.'},
+{t:'info',q:'¿Qué frase podría aparecer en un <b>texto informativo</b>?',o:['El oso polar vive en el Ártico.','¡El oso polar es el animal más bonito del mundo!','Érase una vez un oso polar que hablaba.','Creo que los osos polares son aburridos.'],e:'Es un dato real. Las demás son opiniones o el principio de un cuento.'},
+{t:'info',d:2,q:'¿En qué se diferencia un <b>reportaje</b> de una <b>noticia</b>?',o:['El reportaje profundiza en el tema y da más detalles','El reportaje es inventado','La noticia siempre es más larga','El reportaje no puede llevar fotos'],e:'El reportaje <b>profundiza en un tema y ofrece más detalles que una noticia</b>.'},
+{t:'info',d:2,q:'¿Qué tienen en común el <b>cartel</b> y el <b>folleto</b>?',o:['Los dos dan información breve','Los dos organizan datos en filas y columnas','Los dos indican pasos a seguir','Los dos cuentan historias'],e:'El cartel informa de forma breve y visual; el folleto ofrece información breve sobre un producto, servicio o lugar.'},
+{t:'info',d:2,q:'¿En qué se diferencian una <b>tabla</b> y un <b>gráfico</b>?',o:['La tabla organiza en filas y columnas; el gráfico representa los datos de forma visual','La tabla cuenta una historia y el gráfico no','El gráfico solo lleva palabras','Son exactamente lo mismo'],e:'Tabla: filas y columnas. Gráfico: datos de forma visual (por ejemplo, barras).'},
+// la tabla de la ficha
+{t:'info',q:FICHA_TABLA+'Según la tabla, ¿dónde vive el <b>oso polar</b>?',o:['En el Ártico','En África','En España','En el océano'],e:'En la fila del oso polar, la columna «Lugar» dice <b>Ártico</b>.',p:'Tabla: ¿dónde vive el oso polar?'},
+{t:'info',q:FICHA_TABLA+'Según la tabla, ¿qué animal vive en <b>España</b>?',o:['El lince ibérico','El elefante','La tortuga marina','El oso polar'],e:'El <b>lince ibérico</b> vive en España.',p:'Tabla: ¿qué animal vive en España?'},
+{t:'info',q:FICHA_TABLA+'Según la tabla, ¿dónde vive el <b>elefante</b>?',o:['En África','En el Ártico','En España','En el océano'],e:'El elefante vive en <b>África</b>.',p:'Tabla: ¿dónde vive el elefante?'},
+{t:'info',q:FICHA_TABLA+'¿Cuántos animales aparecen en la tabla?',o:['4','2','3','5'],e:'Oso polar, tortuga marina, elefante y lince ibérico: <b>4</b>.',p:'Tabla: ¿cuántos animales hay?'},
+{t:'info',d:2,q:FICHA_TABLA+'¿Cuántas <b>columnas</b> tiene la tabla?',o:['2','4','5','1'],e:'Dos columnas: <b>Animal</b> y <b>Lugar</b>. (Las filas son las líneas de cada animal).',p:'Tabla: ¿cuántas columnas tiene?'},
+{t:'info',q:FICHA_TABLA+'¿Qué tipo de texto informativo es este?',o:['Una tabla','Un gráfico','Un cartel','Una noticia'],e:'Organiza la información en <b>filas y columnas</b>: es una tabla.',p:'¿Qué tipo de texto es la tabla de animales?'},
+// el gráfico de la ficha
+{t:'info',q:FICHA_GRAF+'Según el gráfico, ¿cuál es el deporte <b>preferido</b> de la clase?',o:['Fútbol','Baloncesto','Natación','Tenis'],e:'La barra más alta es la del <b>fútbol</b>.',p:'Gráfico: ¿deporte preferido?'},
+{t:'info',q:FICHA_GRAF+'Según el gráfico, ¿qué deporte gusta <b>menos</b>?',o:['Tenis','Fútbol','Baloncesto','Natación'],e:'La barra más baja es la del <b>tenis</b>.',p:'Gráfico: ¿deporte que gusta menos?'},
+{t:'info',d:2,q:FICHA_GRAF+'¿Qué deporte está en <b>segundo</b> lugar?',o:['Baloncesto','Natación','Tenis','Fútbol'],e:'Ordenadas de más alta a más baja: fútbol, <b>baloncesto</b>, natación y tenis.',p:'Gráfico: ¿segundo deporte?'},
+{t:'info',q:FICHA_GRAF+'¿Qué tipo de texto informativo es este?',o:['Un gráfico','Una tabla','Un folleto','Un manual de instrucciones'],e:'Representa datos <b>de forma visual</b> con barras: es un gráfico.',p:'¿Qué tipo de texto es el gráfico de deportes?'},
 );
 TFB.push(
-{t:'info',s:'Un texto informativo cuenta una historia inventada.',v:false,e:'Eso lo hacen los cuentos. El texto informativo da <b>información real</b>.'},
-{t:'info',s:'Una noticia del periódico es un texto informativo.',v:true,e:'Las noticias informan de cosas que han pasado de verdad.'},
-{t:'info',s:'Los textos informativos pueden llevar fotos, gráficos y mapas.',v:true,e:'Ayudan a entender mejor la información.'},
-{t:'info',s:'La conclusión va al principio del texto.',v:false,e:'Va al <b>final</b>. Al principio va la introducción.'},
-{t:'info',s:'El título nos dice de qué trata el texto.',v:true,e:'Por eso es lo primero que leemos.'},
-{t:'info',d:2,s:'En un texto informativo el autor da su opinión todo el rato.',v:false,e:'Un texto informativo cuenta <b>hechos y datos</b>, no opiniones.'},
+{t:'info',s:'Los textos informativos cuentan historias inventadas.',v:false,e:'¡Informan, no cuentan historias!'},
+{t:'info',s:'Los textos informativos sirven para aprender cosas nuevas y conocer mejor el mundo que nos rodea.',v:true,e:'Es justo lo que dice la ficha.'},
+{t:'info',s:'Los textos informativos expresan opiniones personales.',v:false,e:'Son <b>objetivos</b>: no expresan opiniones personales.'},
+{t:'info',s:'La información de un texto informativo es real y verificada.',v:true,e:'Es una de sus características.'},
+{t:'info',s:'Los textos informativos van dirigidos solo a los maestros.',v:false,e:'Van dirigidos a <b>todas las personas</b> que quieren informarse.'},
+{t:'info',s:'Los títulos, subtítulos, imágenes y tablas ayudan a organizar la información.',v:true,e:'Característica: organización de la información.'},
+{t:'info',s:'Un reportaje da menos detalles que una noticia.',v:false,e:'Al revés: el reportaje <b>ofrece más detalles</b> que una noticia.'},
+{t:'info',s:'Un cartel informa de forma larga y con mucho texto.',v:false,e:'El cartel informa de forma <b>breve y visual</b>.'},
+{t:'info',pre:FICHA_TABLA,s:'Según la tabla, el lince ibérico vive en África.',v:false,e:'El lince ibérico vive en <b>España</b>. En África vive el elefante.',p:'Tabla: el lince ibérico vive en África'},
+{t:'info',pre:FICHA_TABLA,s:'Según la tabla, la tortuga marina vive en el océano.',v:true,e:'En su fila pone <b>Océano</b>.',p:'Tabla: la tortuga marina vive en el océano'},
+{t:'info',pre:FICHA_GRAF,s:'Según el gráfico, el tenis es el deporte preferido de la clase.',v:false,e:'El preferido es el <b>fútbol</b>; el tenis es el que menos gusta.',p:'Gráfico: el tenis es el preferido'},
+{t:'info',pre:FICHA_GRAF,s:'Según el gráfico, a la clase le gusta más el fútbol que la natación.',v:true,e:'La barra del fútbol es más alta que la de la natación.',p:'Gráfico: fútbol más que natación'},
 );
 CAZA.push(
-{t:'info',goal:'Atrapa las frases que podrían estar en un <b>texto INFORMATIVO</b>',good:['Las arañas tienen ocho patas.','El búho caza de noche.','La calabaza se recoge en otoño.','Los murciélagos son mamíferos.'],bad:['Érase una vez una bruja…','¡Qué miedo me dan!','Colorín colorado, este cuento se ha acabado.','Había una vez un fantasma…'],e:'Las frases informativas dan <b>datos reales</b>. Las otras son de cuentos o expresan sentimientos.'},
-{t:'info',goal:'Atrapa los <b>textos informativos</b>',good:['noticia','enciclopedia','folleto de museo','reportaje'],bad:['cuento','poema','adivinanza','fábula'],e:'Noticias, enciclopedias, folletos y reportajes informan. Cuentos, poemas, adivinanzas y fábulas son literarios.'},
+{t:'info',goal:'Atrapa los fantasmas con <b>tipos de textos informativos</b>',good:['noticia','reportaje','folleto','gráfico'],bad:['cuento','poema','adivinanza','fábula'],e:'Noticia, reportaje, folleto y gráfico son textos informativos. Cuentos, poemas, adivinanzas y fábulas no: cuentan historias o juegan con las palabras.'},
+{t:'info',goal:'Atrapa los fantasmas con <b>tipos de textos informativos</b>',good:['cartel','tabla','manual de instrucciones','artículo de enciclopedia'],bad:['cuento','poema','trabalenguas','leyenda'],e:'Cartel, tabla, manual de instrucciones y artículo de enciclopedia son textos informativos.'},
+{t:'info',goal:'Atrapa las <b>características</b> de los textos informativos',good:['Lenguaje claro y preciso','Información real y verificada','Títulos y subtítulos','No dan opiniones'],bad:['Cuentan historias','Tienen rimas','Personajes inventados','«Érase una vez…»'],e:'Las 5 características de la ficha: lenguaje claro y preciso, información real y verificada, organización (títulos, subtítulos, imágenes, tablas), son objetivos y van dirigidos a todas las personas.'},
+{t:'info',goal:'Atrapa las frases <b>objetivas</b> (sin opiniones)',good:['El oso polar vive en el Ártico.','El lince ibérico vive en España.','El elefante vive en África.','La tortuga marina vive en el océano.'],bad:['¡Qué bonito es el elefante!','Creo que el tenis es aburrido.','El fútbol es el mejor deporte.','Me encantan los volcanes.'],e:'Las frases objetivas dan datos (como los de la tabla de la ficha). Las otras expresan opiniones personales.'},
 );
+SOPAS.push(
+{t:'info',goal:'Encuentra 3 <b>tipos de textos informativos</b>.',targets:[['NOTICIA','noticia'],['CARTEL','cartel'],['FOLLETO','folleto']],traps:[['CUENTO','cuento'],['POEMA','poema']],e:'Noticia, cartel y folleto son textos informativos. Cuento y poema, no.'},
+{t:'info',goal:'Encuentra 3 <b>tipos de textos informativos</b>.',targets:[['TABLA','tabla'],['GRAFICO','gráfico'],['MANUAL','manual']],traps:[['FABULA','fábula'],['CUENTO','cuento']],e:'Tabla, gráfico y manual (de instrucciones) son textos informativos. Fábula y cuento, no.'},
+{t:'info',d:2,goal:'Encuentra 3 <b>tipos de textos informativos</b>.',targets:[['REPORTAJE','reportaje'],['NOTICIA','noticia'],['TABLA','tabla']],traps:[['POEMA','poema'],['LEYENDA','leyenda']],e:'Reportaje, noticia y tabla son textos informativos. Poema y leyenda, no.'},
+);
+// Generador con los 8 tipos de la ficha (definición ↔ tipo ↔ ejemplo)
+function genInfo(type,lv){
+  const t=pick(TIPOS_INFO);
+  if(type==='tf'){
+    const ok=Math.random()<.5,shown=ok?t:pick(TIPOS_INFO.filter(x=>x.k!==t.k&&(lv===2||x.k!==t.par)));
+    const html=Math.random()<.5?`¿Verdadero o falso?<div class="tfst">«${shown.def}» es lo que hace un/una <b>${t.n.toLowerCase()}</b>.</div>`:`¿Verdadero o falso?<div class="tfst">«${pick(shown.ej)}» es un ejemplo de <b>${t.n.toLowerCase()}</b>.</div>`;
+    return{type:'tf',truth:ok,html,answerText:ok?'Verdadero':`Falso: es ${shown.n.toLowerCase()}`,explain:`<b>${t.n}</b>: ${t.def}`+(ok?'':`<br><b>${shown.n}</b>: ${shown.def}`),plain:plainOf(html).replace('¿Verdadero o falso? ','')};
+  }
+  const k=pick(['ej','ej','def','tipo']);
+  if(k==='ej'){const ex=pick(t.ej);return mc({html:`¿Qué tipo de texto informativo es?<div class="tfst">${ex}</div>`,explain:`Es un/una <b>${t.n.toLowerCase()}</b>: ${t.def.charAt(0).toLowerCase()+t.def.slice(1)}`,plain:`¿Qué tipo de texto es: ${ex}`,wide:true},[t.n,...infoDistract(t,lv,x=>x.n)])}
+  if(k==='def')return mc({html:`¿Qué tipo de texto informativo…<div class="tfst">${t.def.charAt(0).toLowerCase()+t.def.slice(1)}</div>`,explain:`<b>${t.n}</b>: ${t.def}`,plain:`¿Qué texto ${t.def.toLowerCase()}`},[t.n,...infoDistract(t,lv,x=>x.n)]);
+  return mc({html:`¿Qué hace un/una <b>${t.n.toLowerCase()}</b>?`,explain:`<b>${t.n}</b>: ${t.def}`,plain:`¿Qué hace: ${t.n}?`,wide:true},[t.def,...infoDistract(t,lv,x=>x.def)]);
+}
+
 // --- conectar: generador de pronombres, lecturas y textos sin repetir ---
 const _buildLengua=buildLengua;
 buildLengua=function(topic,type,lv){
   if(topic==='pron'&&(type==='caza'||((type==='mc'||type==='tf')&&Math.random()<.75)))return genPron(type,lv);
+  if(topic==='info'&&(type==='mc'||type==='tf')&&Math.random()<(type==='mc'?.5:.45))return genInfo(type,lv);
   if(topic==='info'&&type==='tf'){const it=deck('tf',TFB,lv,topic);return{type:'tf',truth:it.v,html:`${it.pre||''}¿Verdadero o falso?<div class="tfst">${it.s}</div>`,answerText:it.v?'Verdadero':'Falso',explain:it.e,plain:it.p||plainOf(it.s)}}
   if(topic==='info'&&type==='mc'){const it=deck('mc',BANK,lv,topic);return mc({html:it.q,explain:it.e,plain:it.p||plainOf(it.q),wide:true},it.o)}
   return _buildLengua(topic,type,lv);
@@ -1655,7 +1676,7 @@ function renderQ(q,host){
   let done=false;const ctrl={isDone:()=>done,onEnd:null,reveal:null,key:null};
   ctrl.end=(ok,title,skipReveal)=>{if(done)return;done=true;if(!ok&&!skipReveal&&ctrl.reveal)ctrl.reveal();if(ctrl.onEnd)ctrl.onEnd(ok,title)};
   ctrl.timeout=()=>ctrl.end(false,'⌛ ¡Se acabó el tiempo!');
-  const lm=String(q.html).match(/^([\s\S]*?)(<div class="lect">[\s\S]*?<\/div>)([\s\S]*)$/);
+  const lm=String(q.html).match(/^([\s\S]*?)<!--L-->([\s\S]*?)<!--\/L-->([\s\S]*)$/);
   if(lm)host.innerHTML=`<div class="qsplit"><div class="qleft">${lm[2]}</div><div class="qright"><div class="qtext">${lm[1]}${lm[3]}</div><div class="qarea"></div></div></div>`;
   else host.innerHTML=`<div class="qtext">${q.html}</div><div class="qarea"></div>`;
   RENDER[q.type](q,host.querySelector('.qarea'),ctrl);
